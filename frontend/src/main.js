@@ -12,8 +12,9 @@ new Vue({
   },
   router,
   store,
-  created: function() {
-    this.getCurrentUserInfo();  // 페이지에 접속했을 때, 로그인한 유저라면 유저정보를 store에 저장한다.
+  created: async function() {
+    await this.getCurrentUserInfo();  // 페이지에 접속했을 때, 로그인한 유저라면 유저정보를 store에 저장한다.
+    this.$mount('#app');
   },
   render: h => h(App),
-}).$mount('#app')
+});

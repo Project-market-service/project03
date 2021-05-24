@@ -32,8 +32,8 @@ const mutations = {
 }
 
 const actions = {
-	getCurrentUserInfo(context) {
-		axios.get('/userinfo')
+	async getCurrentUserInfo(context) {
+		await axios.get('/userinfo')
 			.then(function(response) {
 				if (response.status === 200) {
 					context.commit('setUserInfo', response.data);
