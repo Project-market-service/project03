@@ -1,8 +1,5 @@
 <template>
-  <div>
-    <h1>main</h1>
-    <button v-on:click="test">TEST</button>
-  </div>
+  <div></div>
 </template>
 
 <script>
