@@ -18,9 +18,9 @@
       </div>
       <span class="material-icons header-nav__abs header-nav__abs--left header--nav__list">reorder</span>
       <ul class="header-nav__abs header-nav__abs--right">
-        <li>Cart</li>
-        <li>Recently view</li>
-        <li>Like</li>
+        <li><span class="material-icons">shopping_cart</span></li>
+        <li><span class="material-icons">visibility</span></li>
+        <li><span class="material-icons">favorite</span></li>
       </ul>
     </div>
   </div>
@@ -101,4 +101,11 @@ export default {
   right: 0;
   text-align: right;
 }
+.header-nav__abs--right li {
+  display: inline-block;
+  margin-right: 6px;
+  cursor: pointer;
+}
+.header-nav__abs--right li:last-child { margin-right: 0; }
+.header-nav__abs--right li span { font-size: 28px; }
 </style>

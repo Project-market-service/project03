@@ -1,25 +1,28 @@
 <template>
-  <div></div>
+  <div class="container">
+    <main-slider class="container__images"></main-slider>
+  </div>
 </template>
 
 <script>
-import axios from '../api'
+import MainSlider from '../components/main/MainSlider.vue';
 
 export default {
-  methods: {
-    test: function() {
-      axios.get("/")
-        .then(function(response) {
-          console.log(response.status);
-        })
-        .catch(function(error) {
-          console.log(error);
-        })
-    }
+  components: {
+    MainSlider,
   }
 }
 </script>
 
-<style>
-
+<style scoped>
+.container {
+  margin: 0 auto;
+  padding: 60px 10px 0;
+  width: 100%;
+  max-width: 768px;
+}
+.container__images {
+  width: 100%;
+  height: 200px;
+}
 </style>
