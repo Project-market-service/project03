@@ -1,16 +1,185 @@
 <template>
   <div class="container">
-    <main-slider class="container__images"></main-slider>
+    <main-slider class="main__sliders" />
+    <item-list class="main__item-list" :items="items"/>
   </div>
 </template>
 
 <script>
 import MainSlider from '../components/main/MainSlider.vue';
+import ItemList from '../components/ItemGridList.vue';
 
 export default {
   components: {
     MainSlider,
-  }
+    ItemList,
+  },
+  data: function() {
+    return {
+      items: [
+        {
+          name: '신발',
+          cost: 2000,
+          image: 'https://cdn.pixabay.com/photo/2014/10/27/19/18/baby-shoes-505471_1280.jpg',
+        },
+        {
+          name: '신발',
+          cost: 2000,
+          image: 'https://cdn.pixabay.com/photo/2014/10/27/19/18/baby-shoes-505471_1280.jpg',
+        },
+        {
+          name: '신발',
+          cost: 2000,
+          image: 'https://cdn.pixabay.com/photo/2014/10/27/19/18/baby-shoes-505471_1280.jpg',
+        },
+        {
+          name: '신발',
+          cost: 2000,
+          image: 'https://cdn.pixabay.com/photo/2014/10/27/19/18/baby-shoes-505471_1280.jpg',
+        },
+        {
+          name: '신발',
+          cost: 2000,
+          image: 'https://cdn.pixabay.com/photo/2014/10/27/19/18/baby-shoes-505471_1280.jpg',
+        },
+        {
+          name: '신발',
+          cost: 2000,
+          image: 'https://cdn.pixabay.com/photo/2014/10/27/19/18/baby-shoes-505471_1280.jpg',
+        },
+        {
+          name: '신발',
+          cost: 2000,
+          image: 'https://cdn.pixabay.com/photo/2014/10/27/19/18/baby-shoes-505471_1280.jpg',
+        },
+        {
+          name: '신발',
+          cost: 2000,
+          image: 'https://cdn.pixabay.com/photo/2014/10/27/19/18/baby-shoes-505471_1280.jpg',
+        },
+        {
+          name: '신발',
+          cost: 2000,
+          image: 'https://cdn.pixabay.com/photo/2014/10/27/19/18/baby-shoes-505471_1280.jpg',
+        },
+        {
+          name: '신발',
+          cost: 2000,
+          image: 'https://cdn.pixabay.com/photo/2014/10/27/19/18/baby-shoes-505471_1280.jpg',
+        },
+        {
+          name: '신발',
+          cost: 2000,
+          image: 'https://cdn.pixabay.com/photo/2014/10/27/19/18/baby-shoes-505471_1280.jpg',
+        },
+        {
+          name: '신발',
+          cost: 2000,
+          image: 'https://cdn.pixabay.com/photo/2014/10/27/19/18/baby-shoes-505471_1280.jpg',
+        },
+        {
+          name: '신발',
+          cost: 2000,
+          image: 'https://cdn.pixabay.com/photo/2014/10/27/19/18/baby-shoes-505471_1280.jpg',
+        },
+        {
+          name: '신발',
+          cost: 2000,
+          image: 'https://cdn.pixabay.com/photo/2014/10/27/19/18/baby-shoes-505471_1280.jpg',
+        },
+        {
+          name: '신발',
+          cost: 2000,
+          image: 'https://cdn.pixabay.com/photo/2014/10/27/19/18/baby-shoes-505471_1280.jpg',
+        },
+        {
+          name: '신발',
+          cost: 2000,
+          image: 'https://cdn.pixabay.com/photo/2014/10/27/19/18/baby-shoes-505471_1280.jpg',
+        },
+        {
+          name: '신발',
+          cost: 2000,
+          image: 'https://cdn.pixabay.com/photo/2014/10/27/19/18/baby-shoes-505471_1280.jpg',
+        },
+        {
+          name: '신발',
+          cost: 2000,
+          image: 'https://cdn.pixabay.com/photo/2014/10/27/19/18/baby-shoes-505471_1280.jpg',
+        },
+        {
+          name: '신발',
+          cost: 2000,
+          image: 'https://cdn.pixabay.com/photo/2014/10/27/19/18/baby-shoes-505471_1280.jpg',
+        },
+        {
+          name: '신발',
+          cost: 2000,
+          image: 'https://cdn.pixabay.com/photo/2014/10/27/19/18/baby-shoes-505471_1280.jpg',
+        },
+        {
+          name: '신발',
+          cost: 2000,
+          image: 'https://cdn.pixabay.com/photo/2014/10/27/19/18/baby-shoes-505471_1280.jpg',
+        },
+        {
+          name: '신발',
+          cost: 2000,
+          image: 'https://cdn.pixabay.com/photo/2014/10/27/19/18/baby-shoes-505471_1280.jpg',
+        },
+        {
+          name: '신발',
+          cost: 2000,
+          image: 'https://cdn.pixabay.com/photo/2014/10/27/19/18/baby-shoes-505471_1280.jpg',
+        },
+        {
+          name: '신발',
+          cost: 2000,
+          image: 'https://cdn.pixabay.com/photo/2014/10/27/19/18/baby-shoes-505471_1280.jpg',
+        },
+        {
+          name: '신발',
+          cost: 2000,
+          image: 'https://cdn.pixabay.com/photo/2014/10/27/19/18/baby-shoes-505471_1280.jpg',
+        },
+        {
+          name: '신발',
+          cost: 2000,
+          image: 'https://cdn.pixabay.com/photo/2014/10/27/19/18/baby-shoes-505471_1280.jpg',
+        },
+        {
+          name: '신발',
+          cost: 2000,
+          image: 'https://cdn.pixabay.com/photo/2014/10/27/19/18/baby-shoes-505471_1280.jpg',
+        },
+        {
+          name: '신발',
+          cost: 2000,
+          image: 'https://cdn.pixabay.com/photo/2014/10/27/19/18/baby-shoes-505471_1280.jpg',
+        },
+        {
+          name: '신발',
+          cost: 2000,
+          image: 'https://cdn.pixabay.com/photo/2014/10/27/19/18/baby-shoes-505471_1280.jpg',
+        },
+        {
+          name: '신발',
+          cost: 2000,
+          image: 'https://cdn.pixabay.com/photo/2014/10/27/19/18/baby-shoes-505471_1280.jpg',
+        },
+        {
+          name: '신발',
+          cost: 2000,
+          image: 'https://cdn.pixabay.com/photo/2014/10/27/19/18/baby-shoes-505471_1280.jpg',
+        },
+        {
+          name: '신발',
+          cost: 2000,
+          image: 'https://cdn.pixabay.com/photo/2014/10/27/19/18/baby-shoes-505471_1280.jpg',
+        },
+      ]
+    }
+  },
 }
 </script>
 
@@ -21,8 +190,10 @@ export default {
   width: 100%;
   max-width: 768px;
 }
-.container__images {
+.main__sliders {
   width: 100%;
-  height: 200px;
+}
+.main__item-list {
+  margin-top: 30px;
 }
 </style>
