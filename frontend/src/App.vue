@@ -1,17 +1,22 @@
 <template>
   <div id="app">
-    <HeaderNav></HeaderNav>
-    <router-view></router-view>
+    <div>
+      <header-nav></header-nav>
+      <router-view></router-view>
+    </div>
+    <sticky-icons></sticky-icons>
   </div>
 </template>
 
 <script>
-import HeaderNav from './components/HeaderNav.vue'
+import HeaderNav from './components/static/HeaderNav.vue';
+import StickyIcons from './components/static/StickyIcons.vue';
 
 export default {
   name: 'App',
   components: {
     HeaderNav,
+    StickyIcons,
   }
 }
 </script>

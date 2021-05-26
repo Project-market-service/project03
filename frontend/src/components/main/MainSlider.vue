@@ -1,6 +1,6 @@
 <template>
   <div>
-    <vueper-slides fade :touchable="false" :slide-ratio="1 / 2">
+    <vueper-slides autoplay fade :touchable="false" :slide-ratio="1 / 2">
       <vueper-slide v-for="(slide, i) in slides" :key="i" :image="slide.image" />
     </vueper-slides>
   </div>

@@ -7,7 +7,7 @@
 
 <script>
 import MainSlider from '../components/main/MainSlider.vue';
-import ItemList from '../components/ItemGridList.vue';
+import ItemList from '../components/common/ItemGridList.vue';
 
 export default {
   components: {
@@ -189,6 +189,7 @@ export default {
   padding: 60px 10px 0;
   width: 100%;
   max-width: 768px;
+  box-sizing: border-box;
 }
 .main__sliders {
   width: 100%;

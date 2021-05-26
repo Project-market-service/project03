@@ -2,7 +2,7 @@
   <div class="header-nav">
     <div class="header-nav__container">
       <router-link class="header-nav__logo" to="/">  
-        <img alt="Logo" src="../assets/image/logo.png">
+        <img alt="Logo" src="../../assets/image/logo.png">
       </router-link>
       <div class="header-nav__search-box">
         <input type="text">
@@ -27,7 +27,6 @@
 </template>
 
 <script>
-// import axios from '@/api'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -48,6 +47,9 @@ export default {
 .header-nav {
   padding: 5px 20px;
   background-color: #f1f1f1;
+  position: sticky;
+  top: 0;
+  z-index: 999;
 }
 .header-nav__container {
   margin: 0 auto;
@@ -100,10 +102,11 @@ export default {
 .header-nav__abs--right {
   right: 0;
   text-align: right;
+  padding: 8px 0;
 }
 .header-nav__abs--right li {
   display: inline-block;
-  margin-right: 6px;
+  margin-right: 10px;
   cursor: pointer;
 }
 .header-nav__abs--right li:last-child { margin-right: 0; }
