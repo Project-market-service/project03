@@ -7,13 +7,18 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import com.spring.fleamarket.global.security.filter.RestAuthenticationFilter;
+import com.spring.fleamarket.global.security.filter.RestAuthorizationFilter;
 import com.spring.fleamarket.global.security.handler.RestAuthenticationFailureHandler;
 import com.spring.fleamarket.global.security.handler.RestAuthenticationSuccessHandler;
 import com.spring.fleamarket.global.security.handler.RestLogoutSuccessHandler;
@@ -33,17 +38,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		
-		http.authorizeRequests()
-				.antMatchers("/").permitAll()
-				.antMatchers("/login").permitAll()
-//				.anyRequest().authenticated()
-				.anyRequest().permitAll()
+		http.csrf().disable()
+			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
-				.formLogin().disable()
-				.logout().logoutSuccessHandler(logoutSuccessHandler());
+			.httpBasic().disable()
+			.formLogin().disable()
+			.logout().logoutSuccessHandler(logoutSuccessHandler())	
+			.and()
+			.authorizeRequests()
+				.antMatchers("/api/test").hasRole("USER")
+			.anyRequest().permitAll()
+			.and()
+			.addFilter(corsFilter())
+			.addFilter(restAuthenticationFilter())
+			.addFilter(restAuthorizationFilter());
 			
-		http.addFilterAt(restAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
 	
 	@Bean
@@ -53,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Bean
 	public RestAuthenticationFilter restAuthenticationFilter() throws Exception {
-		RestAuthenticationFilter filter = new RestAuthenticationFilter(new AntPathRequestMatcher("/login", "POST"));
+		RestAuthenticationFilter filter = new RestAuthenticationFilter();
 		filter.setAuthenticationManager(this.authenticationManager());
 		filter.setAuthenticationSuccessHandler(new RestAuthenticationSuccessHandler());
 		filter.setAuthenticationFailureHandler(new RestAuthenticationFailureHandler());
@@ -65,4 +74,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return new RestLogoutSuccessHandler();
 	}
 	
+	@Bean 
+	public RestAuthorizationFilter restAuthorizationFilter() throws Exception {
+		return new RestAuthorizationFilter(this.authenticationManager());
+	}
+	
+	@Bean 
+	public CorsFilter corsFilter() {
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		CorsConfiguration config = new CorsConfiguration();
+		config.setAllowCredentials(true);
+		config.addAllowedOrigin("*");
+		config.addAllowedHeader("*");
+		config.addAllowedMethod("*");
+		
+		source.registerCorsConfiguration("/**", config);
+		return new CorsFilter(source);
+	}
 }
