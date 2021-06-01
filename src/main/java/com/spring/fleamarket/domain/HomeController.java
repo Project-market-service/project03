@@ -1,12 +1,18 @@
 package com.spring.fleamarket.domain;
 
+import java.security.Principal;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.spring.fleamarket.domain.model.Account;
+import com.spring.fleamarket.global.security.annotation.LoginedAccount;
 
 import lombok.extern.log4j.Log4j;
 
@@ -39,5 +45,11 @@ public class HomeController {
 //										.build(), 
 //									HttpStatus.OK);
 //	}
+	
+	@PostMapping("/api/test")
+	public String test(@LoginedAccount Account account) {
+		log.info("login account=" + account);
+		return "OK";
+	}
 	
 }

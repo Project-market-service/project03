@@ -37,7 +37,7 @@ public class RestAuthorizationFilter extends BasicAuthenticationFilter {
 				Authentication auth = jwtTokenService.getAuthentication(jwtToken);
 				SecurityContextHolder.getContext().setAuthentication(auth);
 			} catch (TokenExpiredException e) {
-				log.warn("expired Access token!");
+				log.warn("expired token!");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

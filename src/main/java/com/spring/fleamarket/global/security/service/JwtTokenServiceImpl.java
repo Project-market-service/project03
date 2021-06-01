@@ -1,6 +1,7 @@
 package com.spring.fleamarket.global.security.service;
 
 import java.util.Date;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,8 +25,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 
 	private String headerName = "Authorization";
 	private String tokenPrefix = "Bearer ";
-	private long accessTokenValidationTime = 10 * 60 * 1000L;				// 10분
-	private long refreshTokenValidationTime = 1 * 24 * 60 * 60 * 1000L;	// 1일
+	private long accessTokenValidationTime = 10 * 60 * 1000L; // 10분
 	
 	private String secretKey = "secret";
 	
@@ -62,20 +62,17 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 
 	@Override
 	public String generateAccessToken(int id, String username) {
-		return headerName + generateToken(id, username, accessTokenValidationTime);
+		String token = JWT.create()
+				.withClaim("id", id)
+				.withClaim("username", username)
+				.withExpiresAt(new Date(System.currentTimeMillis() + accessTokenValidationTime))
+				.sign(Algorithm.HMAC256(secretKey));
+		return tokenPrefix + token;
 	}
 
 	@Override
-	public String generateRefreshToken(int id, String username) {
-		return headerName + generateToken(id, username, refreshTokenValidationTime);
-	}
-	
-	private String generateToken(int id, String username, long validationTime) {
-		return JWT.create()
-				.withClaim("id", id)
-				.withClaim("username", username)
-				.withExpiresAt(new Date(System.currentTimeMillis() + validationTime))
-				.sign(Algorithm.HMAC256(secretKey));
+	public String generateRefreshToken() {
+		return UUID.randomUUID().toString();
 	}
 	
 }

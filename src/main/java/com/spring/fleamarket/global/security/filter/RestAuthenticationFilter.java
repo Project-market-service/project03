@@ -62,7 +62,7 @@ public class RestAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 		Account account = user.getAccount();
 		
 		String accessToken = jwtTokenService.generateAccessToken(account.getId(), account.getName());
-		String refreshToken = jwtTokenService.generateRefreshToken(account.getId(), account.getName());
+		String refreshToken = jwtTokenService.generateRefreshToken();
 		AuthenticationSuccessResponse authResponse = AuthenticationSuccessResponse.builder()
 												.accessToken(accessToken)
 												.refreshToken(refreshToken)
