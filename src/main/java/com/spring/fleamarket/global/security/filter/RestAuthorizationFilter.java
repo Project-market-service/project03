@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.spring.fleamarket.global.security.service.JwtTokenService;
 
 import lombok.extern.log4j.Log4j;
@@ -32,9 +33,14 @@ public class RestAuthorizationFilter extends BasicAuthenticationFilter {
 			throws IOException, ServletException {
 		String jwtToken = jwtTokenService.getJwtToken(request);
 		if (jwtToken != null) {
-			Authentication auth = jwtTokenService.getAuthentication(jwtToken);
-			log.info(auth);
-			SecurityContextHolder.getContext().setAuthentication(auth);
+			try {
+				Authentication auth = jwtTokenService.getAuthentication(jwtToken);
+				SecurityContextHolder.getContext().setAuthentication(auth);
+			} catch (TokenExpiredException e) {
+				log.warn("expired Access token!");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		
 		chain.doFilter(request, response);

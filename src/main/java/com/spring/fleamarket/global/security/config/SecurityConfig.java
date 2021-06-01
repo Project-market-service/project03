@@ -11,16 +11,12 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 import com.spring.fleamarket.global.security.filter.RestAuthenticationFilter;
 import com.spring.fleamarket.global.security.filter.RestAuthorizationFilter;
-import com.spring.fleamarket.global.security.handler.RestAuthenticationFailureHandler;
-import com.spring.fleamarket.global.security.handler.RestAuthenticationSuccessHandler;
 import com.spring.fleamarket.global.security.handler.RestLogoutSuccessHandler;
 
 @Configuration
@@ -64,8 +60,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public RestAuthenticationFilter restAuthenticationFilter() throws Exception {
 		RestAuthenticationFilter filter = new RestAuthenticationFilter();
 		filter.setAuthenticationManager(this.authenticationManager());
-		filter.setAuthenticationSuccessHandler(new RestAuthenticationSuccessHandler());
-		filter.setAuthenticationFailureHandler(new RestAuthenticationFailureHandler());
 		return filter;
 	}
 	

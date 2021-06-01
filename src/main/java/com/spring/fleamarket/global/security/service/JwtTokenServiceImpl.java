@@ -3,7 +3,6 @@ package com.spring.fleamarket.global.security.service;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.spring.fleamarket.domain.account.mapper.AccountFindMapper;
 import com.spring.fleamarket.domain.model.Account;
 import com.spring.fleamarket.global.security.model.LoginDetails;
@@ -24,33 +24,23 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 
 	private String headerName = "Authorization";
 	private String tokenPrefix = "Bearer ";
-	private long expirationTime = 10 * 60 * 1000L;
+	private long accessTokenValidationTime = 10 * 60 * 1000L;				// 10분
+	private long refreshTokenValidationTime = 1 * 24 * 60 * 60 * 1000L;	// 1일
+	
 	private String secretKey = "secret";
 	
 	@Autowired
 	AccountFindMapper mapper;
-	
-	@Override
-	public String createToken(int id, String username) {
-		return JWT.create()
-//				.withSubject("")
-				.withClaim("id", id)
-				.withClaim("username", username)
-				.withExpiresAt(new Date(System.currentTimeMillis() + expirationTime))
-				.sign(Algorithm.HMAC256(secretKey));
-	}
 
 	@Override
-	public Authentication getAuthentication(String token) {
+	public Authentication getAuthentication(String token) throws TokenExpiredException, Exception {
 		String username = JWT.require(Algorithm.HMAC256(secretKey)).build().verify(token).getClaim("username").asString();
-		log.info("username=" + username);
 		if (username == null) {
 			return null;
 		}
 		
 		Account account = mapper.selectAccountByName(username);
 		LoginDetails loginDetails = new LoginDetails(account);
-		log.info("loginDetails=" + loginDetails);
 		return new UsernamePasswordAuthenticationToken(loginDetails, null, loginDetails.getAuthorities());
 	}
 
@@ -66,14 +56,26 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 	}
 	
 	@Override
-	public void setJwtToken(HttpServletResponse response, String token) {
-		response.addHeader(headerName, tokenPrefix + token);
-	}
-
-	@Override
 	public String getUsernameFromJwtToken(String token) {
 		return JWT.require(Algorithm.HMAC256(secretKey)).build().verify(token).getClaim("username").asString();
 	}
-	
 
+	@Override
+	public String generateAccessToken(int id, String username) {
+		return headerName + generateToken(id, username, accessTokenValidationTime);
+	}
+
+	@Override
+	public String generateRefreshToken(int id, String username) {
+		return headerName + generateToken(id, username, refreshTokenValidationTime);
+	}
+	
+	private String generateToken(int id, String username, long validationTime) {
+		return JWT.create()
+				.withClaim("id", id)
+				.withClaim("username", username)
+				.withExpiresAt(new Date(System.currentTimeMillis() + validationTime))
+				.sign(Algorithm.HMAC256(secretKey));
+	}
+	
 }
