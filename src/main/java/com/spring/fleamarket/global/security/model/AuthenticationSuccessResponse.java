@@ -9,11 +9,9 @@ import lombok.ToString;
 public class AuthenticationSuccessResponse {
 
 	private String accessToken;
-	private String refreshToken;
 	
 	@Builder
-	public AuthenticationSuccessResponse(String accessToken, String refreshToken) {
+	public AuthenticationSuccessResponse(String accessToken) {
 		this.accessToken = accessToken;
-		this.refreshToken = refreshToken;
 	}
 }

@@ -23,12 +23,12 @@ public class HomeController {
 	/*
 	 * 페이지에 접속했을 때, CSRF 토큰을 발급한다.
 	 */
-	@GetMapping("/")
-	public ResponseEntity<String> init(CsrfToken token, HttpServletRequest request) {
-		log.info("token=" + token.getToken());
-		
-		return new ResponseEntity<>(token.getToken(), HttpStatus.OK);
-	}
+//	@GetMapping("/")
+//	public ResponseEntity<String> init(CsrfToken token, HttpServletRequest request) {
+//		log.info("token=" + token.getToken());
+//		
+//		return new ResponseEntity<>(token.getToken(), HttpStatus.OK);
+//	}
 	
 	/*
 	 * 페이지에 접속했을 때, 로그인 했다면 유저정보를 반환해주고, 아니라면 401을 반환한다.
@@ -51,5 +51,8 @@ public class HomeController {
 		log.info("login account=" + account);
 		return "OK";
 	}
+	
+	@PostMapping("/auth/refresh")
+	public void test() {}
 	
 }

@@ -12,8 +12,10 @@ public interface JwtTokenService {
 	
 	public String getJwtToken(HttpServletRequest request);
 
-	public String getUsernameFromJwtToken(String token);
-	
 	public String generateAccessToken(int id, String username);
+
+	public int getIdFromJwtToken(String token);
+
+	public String getUsernameFromJwtToken(String token);
 	
 }

@@ -12,5 +12,14 @@
 		)
 	</insert>
 	
+	<select id="selectRefreshTokenByAccountId" resultType="RefreshToken">
+		SELECT
+			*
+		FROM
+			refresh_tokens
+		WHERE
+			account_id = #{accountId}
+	</select>
+	
 </mapper>
 

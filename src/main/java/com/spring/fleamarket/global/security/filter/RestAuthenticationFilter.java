@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -33,10 +34,10 @@ public class RestAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 	ObjectMapper objectMapper = new ObjectMapper();
 	
 	@Autowired
-	JwtTokenService jwtTokenService;
+	private JwtTokenService jwtTokenService;
 
 	@Autowired
-	RefreshTokenService refreshTokenService;
+	private RefreshTokenService refreshTokenService;
 	
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
@@ -71,10 +72,10 @@ public class RestAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 		
 		AuthenticationSuccessResponse authResponse = AuthenticationSuccessResponse.builder()
 												.accessToken(accessToken)
-												.refreshToken(refreshToken.getToken())
 												.build();
 		
-		response.setContentType("application/json;charset=utf-8");
+		response.addCookie(createRefreshTokenCookie(refreshToken));
+//		response.setContentType("application/json;charset=utf-8");
 		response.getWriter().println(objectMapper.writeValueAsString(authResponse));
 	}
 	
@@ -85,4 +86,13 @@ public class RestAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 		response.setStatus(HttpStatus.UNAUTHORIZED.value());
 		response.getWriter().print("login fail");
 	}
+	
+	private Cookie createRefreshTokenCookie(RefreshToken refreshToken) {
+		Cookie cookie = new Cookie("refreshToken", refreshToken.getToken());
+		cookie.setHttpOnly(true);
+		cookie.setMaxAge((int) RefreshToken.VALIDATION_TIME / 1000);
+		cookie.setPath("/fleamarket/auth/refresh");
+		return cookie;
+	}
+	
 }

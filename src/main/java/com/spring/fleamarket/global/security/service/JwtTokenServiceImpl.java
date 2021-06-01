@@ -24,7 +24,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 
 	private String headerName = "Authorization";
 	private String tokenPrefix = "Bearer ";
-	private long accessTokenValidationTime = 10 * 60 * 1000L; // 10분
+	private long accessTokenValidationTime = 1 * 60 * 1000L;
 	
 	private String secretKey = "secret";
 	
@@ -54,10 +54,6 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 		return headerContent.replace(tokenPrefix, "");
 	}
 	
-	@Override
-	public String getUsernameFromJwtToken(String token) {
-		return JWT.require(Algorithm.HMAC256(secretKey)).build().verify(token).getClaim("username").asString();
-	}
 
 	@Override
 	public String generateAccessToken(int id, String username) {
@@ -67,6 +63,16 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 				.withExpiresAt(new Date(System.currentTimeMillis() + accessTokenValidationTime))
 				.sign(Algorithm.HMAC256(secretKey));
 		return tokenPrefix + token;
+	}
+
+	@Override
+	public int getIdFromJwtToken(String token) {
+		return JWT.decode(token).getClaim("id").asInt();
+	}
+
+	@Override
+	public String getUsernameFromJwtToken(String token) {
+		return JWT.decode(token).getClaim("username").asString();
 	}
 
 }

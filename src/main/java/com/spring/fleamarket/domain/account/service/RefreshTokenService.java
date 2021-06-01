@@ -6,4 +6,6 @@ public interface RefreshTokenService {
 	
 	public RefreshToken generateRefreshToken(int accountId);
 	
+	public RefreshToken selectRefreshTokenByAccountId(int accountId);
+	
 }

@@ -6,4 +6,6 @@ public interface RefreshTokenMapper {
 	
 	public void save(RefreshToken token);
 	
+	public RefreshToken selectRefreshTokenByAccountId(int accountId);
+	
 }
