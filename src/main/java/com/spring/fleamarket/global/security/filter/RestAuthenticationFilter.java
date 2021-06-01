@@ -16,7 +16,9 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.spring.fleamarket.domain.account.service.RefreshTokenService;
 import com.spring.fleamarket.domain.model.Account;
+import com.spring.fleamarket.domain.model.RefreshToken;
 import com.spring.fleamarket.global.security.model.AuthenticationSuccessResponse;
 import com.spring.fleamarket.global.security.model.LoginDetails;
 import com.spring.fleamarket.global.security.model.LoginRequest;
@@ -33,6 +35,9 @@ public class RestAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 	@Autowired
 	JwtTokenService jwtTokenService;
 
+	@Autowired
+	RefreshTokenService refreshTokenService;
+	
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
@@ -61,11 +66,12 @@ public class RestAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 		LoginDetails user = (LoginDetails) authResult.getPrincipal();
 		Account account = user.getAccount();
 		
-		String accessToken = jwtTokenService.generateAccessToken(account.getId(), account.getName());
-		String refreshToken = jwtTokenService.generateRefreshToken();
+		String accessToken = jwtTokenService.generateAccessToken(account.getId(), account.getName());		
+		RefreshToken refreshToken = refreshTokenService.generateRefreshToken(account.getId());
+		
 		AuthenticationSuccessResponse authResponse = AuthenticationSuccessResponse.builder()
 												.accessToken(accessToken)
-												.refreshToken(refreshToken)
+												.refreshToken(refreshToken.getToken())
 												.build();
 		
 		response.setContentType("application/json;charset=utf-8");

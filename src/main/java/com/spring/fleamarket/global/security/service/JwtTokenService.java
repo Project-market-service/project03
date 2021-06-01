@@ -16,6 +16,4 @@ public interface JwtTokenService {
 	
 	public String generateAccessToken(int id, String username);
 	
-	public String generateRefreshToken();
-	
 }

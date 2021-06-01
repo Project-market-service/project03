@@ -1,7 +1,6 @@
 package com.spring.fleamarket.global.security.service;
 
 import java.util.Date;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -70,9 +69,4 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 		return tokenPrefix + token;
 	}
 
-	@Override
-	public String generateRefreshToken() {
-		return UUID.randomUUID().toString();
-	}
-	
 }

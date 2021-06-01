@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.and()
 			.httpBasic().disable()
 			.formLogin().disable()
-			.logout().logoutSuccessHandler(logoutSuccessHandler())	
+			.logout().logoutSuccessHandler(logoutSuccessHandler())
 			.and()
 			.authorizeRequests()
 				.antMatchers("/api/test").hasRole("USER")
