@@ -74,7 +74,7 @@ public class RestAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 												.accessToken(accessToken)
 												.build();
 		
-		response.addCookie(createRefreshTokenCookie(refreshToken));
+		response.addCookie(refreshTokenService.createRefreshTokenCookie(refreshToken));
 		response.getWriter().println(objectMapper.writeValueAsString(authResponse));
 
 	}
@@ -87,12 +87,5 @@ public class RestAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 		response.getWriter().print("login fail");
 	}
 	
-	private Cookie createRefreshTokenCookie(RefreshToken refreshToken) {
-		Cookie cookie = new Cookie("refreshToken", refreshToken.getToken());
-		cookie.setHttpOnly(true);
-		cookie.setMaxAge((int) RefreshToken.VALIDATION_TIME / 1000);
-		cookie.setPath("/fleamarket/auth/refresh");
-		return cookie;
-	}
 	
 }

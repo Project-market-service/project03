@@ -6,6 +6,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.apache.ibatis.type.Alias;
+import org.springframework.beans.factory.annotation.Value;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -16,8 +17,6 @@ import lombok.ToString;
 @ToString
 public class RefreshToken {
 
-	public static final long VALIDATION_TIME = 60 * 60 * 1000L; 
-	
 	private int accountId;
 	@NotBlank
 	private String token;
@@ -25,10 +24,10 @@ public class RefreshToken {
 	private Timestamp expiredDate;
 	
 	@Builder
-	public RefreshToken(int accountId, String token) {
+	public RefreshToken(int accountId, String token, Timestamp expiredDate) {
 		this.accountId = accountId;
 		this.token = token;
-		this.expiredDate = new Timestamp(System.currentTimeMillis() + VALIDATION_TIME);
+		this.expiredDate = expiredDate;
 	}
 	
 }
