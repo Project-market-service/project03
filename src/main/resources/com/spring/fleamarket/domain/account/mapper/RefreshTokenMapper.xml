@@ -9,7 +9,10 @@
 			account_id, token, expired_date
 		) VALUES (
 			#{accountId}, #{token}, #{expiredDate}
-		)
+		) ON DUPLICATE KEY UPDATE
+			account_id = #{accountId},
+			token = #{token},
+			expired_date = #{expiredDate}
 	</insert>
 	
 	<select id="selectRefreshTokenByAccountId" resultType="RefreshToken">

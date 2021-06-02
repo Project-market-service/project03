@@ -75,8 +75,8 @@ public class RestAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 												.build();
 		
 		response.addCookie(createRefreshTokenCookie(refreshToken));
-//		response.setContentType("application/json;charset=utf-8");
 		response.getWriter().println(objectMapper.writeValueAsString(authResponse));
+
 	}
 	
 	@Override

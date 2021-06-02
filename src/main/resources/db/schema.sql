@@ -2,7 +2,7 @@ DROP TABLE accounts;
 DROP TABLE users;
 DROP TABLE account_images;
 DROP TABLE messages;
-DROP TABLE account_refresh_tokens;
+DROP TABLE refresh_tokens;
 
 CREATE TABLE accounts (
 	id INT PRIMARY KEY AUTO_INCREMENT,					-- 계정 고유번호
