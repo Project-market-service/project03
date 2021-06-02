@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.spring.fleamarket.domain.account.service.AccountFindService;
 import com.spring.fleamarket.domain.account.service.RefreshTokenService;
 import com.spring.fleamarket.domain.model.RefreshToken;
-import com.spring.fleamarket.global.security.model.AuthenticationSuccessResponse;
+import com.spring.fleamarket.global.security.model.LoginSuccessResponse;
 import com.spring.fleamarket.global.security.model.LoginDetails;
 import com.spring.fleamarket.global.security.service.JwtTokenService;
 
@@ -71,8 +71,8 @@ public class RestAuthorizationFilter extends BasicAuthenticationFilter {
 						
 						String username = jwtTokenService.getUsernameFromJwtToken(jwtToken);
 						String renewedToken = jwtTokenService.generateAccessToken(accountId, username);		
-						AuthenticationSuccessResponse authResponse = AuthenticationSuccessResponse.builder()
-																		.accessToken(renewedToken)
+						LoginSuccessResponse authResponse = LoginSuccessResponse.builder()
+																		.token(renewedToken)
 																		.build();
 
 						response.getWriter().println(objectMapper.writeValueAsString(authResponse));

@@ -20,7 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.spring.fleamarket.domain.account.service.RefreshTokenService;
 import com.spring.fleamarket.domain.model.Account;
 import com.spring.fleamarket.domain.model.RefreshToken;
-import com.spring.fleamarket.global.security.model.AuthenticationSuccessResponse;
+import com.spring.fleamarket.global.security.model.LoginSuccessResponse;
 import com.spring.fleamarket.global.security.model.LoginDetails;
 import com.spring.fleamarket.global.security.model.LoginRequest;
 import com.spring.fleamarket.global.security.service.JwtTokenService;
@@ -70,8 +70,8 @@ public class RestAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 		String accessToken = jwtTokenService.generateAccessToken(account.getId(), account.getName());		
 		RefreshToken refreshToken = refreshTokenService.generateRefreshToken(account.getId());
 		
-		AuthenticationSuccessResponse authResponse = AuthenticationSuccessResponse.builder()
-												.accessToken(accessToken)
+		LoginSuccessResponse authResponse = LoginSuccessResponse.builder()
+												.token(accessToken)
 												.build();
 		
 		response.addCookie(refreshTokenService.createRefreshTokenCookie(refreshToken));
