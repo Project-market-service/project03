@@ -1,4 +1,4 @@
-package com.spring.fleamarket.global.security.service;
+package com.spring.fleamarket.domain.auth.service.impl;
 
 import java.util.Date;
 
@@ -13,6 +13,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.spring.fleamarket.domain.account.mapper.AccountFindMapper;
+import com.spring.fleamarket.domain.auth.exception.NotFoundAuthenticationHeaderException;
+import com.spring.fleamarket.domain.auth.service.JwtTokenService;
 import com.spring.fleamarket.domain.model.Account;
 import com.spring.fleamarket.global.security.config.JwtConfig;
 import com.spring.fleamarket.global.security.model.LoginDetails;
@@ -42,11 +44,11 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 	}
 
 	@Override
-	public String getJwtToken(HttpServletRequest request) {
+	public String getJwtToken(HttpServletRequest request) throws NotFoundAuthenticationHeaderException {
 		String headerContent = request.getHeader(jwtConfig.getHeaderName());
 		if (headerContent == null
 				|| !headerContent.startsWith(jwtConfig.getTokenPrefix())) {
-			return null;
+			throw new NotFoundAuthenticationHeaderException();
 		}
 		
 		return headerContent.replace(jwtConfig.getTokenPrefix(), "");

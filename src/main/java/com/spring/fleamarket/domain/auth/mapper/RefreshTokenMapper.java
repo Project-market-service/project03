@@ -1,4 +1,4 @@
-package com.spring.fleamarket.domain.account.mapper;
+package com.spring.fleamarket.domain.auth.mapper;
 
 import com.spring.fleamarket.domain.model.RefreshToken;
 

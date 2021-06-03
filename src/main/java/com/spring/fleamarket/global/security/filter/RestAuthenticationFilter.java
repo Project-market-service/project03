@@ -17,13 +17,13 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.spring.fleamarket.domain.account.service.RefreshTokenService;
+import com.spring.fleamarket.domain.auth.service.JwtTokenService;
+import com.spring.fleamarket.domain.auth.service.RefreshTokenService;
 import com.spring.fleamarket.domain.model.Account;
 import com.spring.fleamarket.domain.model.RefreshToken;
 import com.spring.fleamarket.global.security.model.LoginSuccessResponse;
 import com.spring.fleamarket.global.security.model.LoginDetails;
 import com.spring.fleamarket.global.security.model.LoginRequest;
-import com.spring.fleamarket.global.security.service.JwtTokenService;
 
 import lombok.extern.log4j.Log4j;
 

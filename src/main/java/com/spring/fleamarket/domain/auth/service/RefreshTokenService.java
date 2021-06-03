@@ -1,4 +1,4 @@
-package com.spring.fleamarket.domain.account.service;
+package com.spring.fleamarket.domain.auth.service;
 
 import javax.servlet.http.Cookie;
 

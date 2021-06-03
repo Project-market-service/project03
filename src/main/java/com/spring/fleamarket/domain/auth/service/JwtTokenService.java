@@ -1,16 +1,17 @@
-package com.spring.fleamarket.global.security.service;
+package com.spring.fleamarket.domain.auth.service;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.core.Authentication;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.spring.fleamarket.domain.auth.exception.NotFoundAuthenticationHeaderException;
 
 public interface JwtTokenService {
 	
 	public Authentication getAuthentication(String token) throws TokenExpiredException, Exception;
 	
-	public String getJwtToken(HttpServletRequest request);
+	public String getJwtToken(HttpServletRequest request) throws NotFoundAuthenticationHeaderException;
 
 	public String generateAccessToken(int id, String username);
 

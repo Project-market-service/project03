@@ -1,4 +1,4 @@
-package com.spring.fleamarket.domain.account.service.impl;
+package com.spring.fleamarket.domain.auth.service.impl;
 
 import java.sql.Timestamp;
 import java.util.UUID;
@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.spring.fleamarket.domain.account.mapper.RefreshTokenMapper;
-import com.spring.fleamarket.domain.account.service.RefreshTokenService;
+import com.spring.fleamarket.domain.auth.mapper.RefreshTokenMapper;
+import com.spring.fleamarket.domain.auth.service.RefreshTokenService;
 import com.spring.fleamarket.domain.model.RefreshToken;
 
 @Service

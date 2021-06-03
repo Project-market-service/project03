@@ -43,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.and()
 			.authorizeRequests()
 				.antMatchers("/api/test").hasRole("USER")
-				.antMatchers("/auth/**").hasRole("USER")
+//				.antMatchers("/auth/**").hasRole("USER")
 			.anyRequest().permitAll()
 			.and()
 			.addFilter(corsFilter())
