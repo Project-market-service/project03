@@ -19,6 +19,8 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.spring.fleamarket.domain.account.service.AccountFindService;
+import com.spring.fleamarket.domain.auth.exception.InvalidHeaderFormatException;
+import com.spring.fleamarket.domain.auth.exception.NotFoundAuthenticationHeaderException;
 import com.spring.fleamarket.domain.auth.service.JwtTokenService;
 import com.spring.fleamarket.domain.auth.service.RefreshTokenService;
 import com.spring.fleamarket.domain.model.RefreshToken;
@@ -36,9 +38,6 @@ public class RestAuthorizationFilter extends BasicAuthenticationFilter {
 	private JwtTokenService jwtTokenService;
 	
 	@Autowired
-	private RefreshTokenService refreshTokenService;
-	
-	@Autowired
 	private AccountFindService accountFindService;
 	
 	public RestAuthorizationFilter(AuthenticationManager authenticationManager) {
@@ -48,66 +47,16 @@ public class RestAuthorizationFilter extends BasicAuthenticationFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-//		String jwtToken = jwtTokenService.getJwtToken(request);
-//		if (jwtToken != null) {
-//			try {
-//				Authentication auth = jwtTokenService.getAuthentication(jwtToken);
-//				SecurityContextHolder.getContext().setAuthentication(auth);
-//			} catch (TokenExpiredException e) {
-//				log.warn("expired access token!");
-//				
-//				String token = getRefreshToken(request);
-//				if (token != null) {
-//					int accountId = jwtTokenService.getIdFromJwtToken(jwtToken);
-//					RefreshToken refreshToken = refreshTokenService.selectRefreshTokenByAccountId(accountId);
-//					if (refreshToken == null) {
-//						log.warn("not find token");
-//					} else if (!refreshToken.getToken().equals(token)) {
-//						log.warn("not same token");
-//					} else if (refreshToken.getExpiredDate().before(new Date())) {
-//						log.warn("expired refresh token");
-//					} else {
-//						log.info("renew access token!");
-//						
-//						String username = jwtTokenService.getUsernameFromJwtToken(jwtToken);
-//						String renewedToken = jwtTokenService.generateAccessToken(accountId, username);		
-//						LoginSuccessResponse authResponse = LoginSuccessResponse.builder()
-//																		.token(renewedToken)
-//																		.build();
-//
-//						response.getWriter().println(objectMapper.writeValueAsString(authResponse));
-//					
-//						try {
-//							LoginDetails loginDetails = new LoginDetails(accountFindService.selectAccountByName(username));
-//							Authentication auth = new UsernamePasswordAuthenticationToken(loginDetails, null, loginDetails.getAuthorities());
-//							SecurityContextHolder.getContext().setAuthentication(auth);
-//						} catch (Exception e1) {
-//							e1.printStackTrace();
-//						}
-//						
-//					}
-//					
-//				} else {
-//					log.info("no token!");
-//				}
-//				
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//		}
+		try {
+			String accessToken = jwtTokenService.getJwtToken(request);
+			Authentication auth = jwtTokenService.getAuthentication(accessToken);
+			SecurityContextHolder.getContext().setAuthentication(auth);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
 		
 		chain.doFilter(request, response);
 	}
 	
-	private String getRefreshToken(HttpServletRequest request) {
-		Cookie[] cookies = request.getCookies();
-		for (Cookie c : cookies) {
-			if (c.getName().equals("refreshToken")) {
-				return c.getValue();
-			}
-		}
-		
-		return null;
-	}
 	
 }

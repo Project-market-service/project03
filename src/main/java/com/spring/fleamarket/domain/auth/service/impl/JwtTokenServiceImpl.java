@@ -13,6 +13,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.spring.fleamarket.domain.account.mapper.AccountFindMapper;
+import com.spring.fleamarket.domain.auth.exception.InvalidHeaderFormatException;
 import com.spring.fleamarket.domain.auth.exception.NotFoundAuthenticationHeaderException;
 import com.spring.fleamarket.domain.auth.service.JwtTokenService;
 import com.spring.fleamarket.domain.model.Account;
@@ -32,7 +33,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 	AccountFindMapper mapper;
 
 	@Override
-	public Authentication getAuthentication(String token) throws TokenExpiredException, Exception {
+	public Authentication getAuthentication(String token) {
 		String username = JWT.require(Algorithm.HMAC256(jwtConfig.getSecretKey())).build().verify(token).getClaim("username").asString();
 		if (username == null) {
 			return null;
@@ -44,11 +45,14 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 	}
 
 	@Override
-	public String getJwtToken(HttpServletRequest request) throws NotFoundAuthenticationHeaderException {
+	public String getJwtToken(HttpServletRequest request) throws NotFoundAuthenticationHeaderException, InvalidHeaderFormatException {
 		String headerContent = request.getHeader(jwtConfig.getHeaderName());
-		if (headerContent == null
-				|| !headerContent.startsWith(jwtConfig.getTokenPrefix())) {
-			throw new NotFoundAuthenticationHeaderException();
+		if (headerContent == null) {
+			throw new NotFoundAuthenticationHeaderException("Not Found Authentication Header");	
+		}
+		
+		if (!headerContent.startsWith(jwtConfig.getTokenPrefix())) {
+			throw new InvalidHeaderFormatException("Invalid Header Format");
 		}
 		
 		return headerContent.replace(jwtConfig.getTokenPrefix(), "");
@@ -73,6 +77,11 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 	@Override
 	public String getUsernameFromJwtToken(String token) {
 		return JWT.decode(token).getClaim("username").asString();
+	}
+
+	@Override
+	public void verifyJwtToken(String token) throws TokenExpiredException, Exception {
+		JWT.require(Algorithm.HMAC256(jwtConfig.getSecretKey())).build().verify(token);
 	}
 
 }
