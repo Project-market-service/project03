@@ -65,10 +65,9 @@ public class RestAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 		log.info("LOGIN SUCCESS");
 		
 		LoginDetails user = (LoginDetails) authResult.getPrincipal();
-		Account account = user.getAccount();
 		
-		String accessToken = jwtTokenService.generateAccessToken(account.getId(), account.getName());		
-		RefreshToken refreshToken = refreshTokenService.generateRefreshToken(account.getId());
+		String accessToken = jwtTokenService.generateAccessToken(user.getId(), user.getUsername());		
+		RefreshToken refreshToken = refreshTokenService.generateRefreshToken(user.getId());
 		
 		LoginSuccessResponse authResponse = LoginSuccessResponse.builder()
 												.token(accessToken)
@@ -76,7 +75,6 @@ public class RestAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 		
 		response.addCookie(refreshTokenService.createRefreshTokenCookie(refreshToken));
 		response.getWriter().println(objectMapper.writeValueAsString(authResponse));
-
 	}
 	
 	@Override

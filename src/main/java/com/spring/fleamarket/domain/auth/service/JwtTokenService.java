@@ -10,7 +10,7 @@ import com.spring.fleamarket.domain.auth.exception.NotFoundAuthenticationHeaderE
 
 public interface JwtTokenService {
 	
-	public Authentication getAuthentication(String token);
+	public Authentication getAuthentication(String token) throws TokenExpiredException, Exception;
 	
 	public String getJwtToken(HttpServletRequest request) throws NotFoundAuthenticationHeaderException, InvalidHeaderFormatException;
 

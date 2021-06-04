@@ -33,14 +33,11 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 	AccountFindMapper mapper;
 
 	@Override
-	public Authentication getAuthentication(String token) {
-		String username = JWT.require(Algorithm.HMAC256(jwtConfig.getSecretKey())).build().verify(token).getClaim("username").asString();
-		if (username == null) {
-			return null;
-		}
+	public Authentication getAuthentication(String token) throws TokenExpiredException, Exception {
+		int id = getIdFromJwtToken(token);
+		String username = getUsernameFromJwtToken(token);
+		LoginDetails loginDetails = new LoginDetails(id, username);
 		
-		Account account = mapper.selectAccountByName(username);
-		LoginDetails loginDetails = new LoginDetails(account);
 		return new UsernamePasswordAuthenticationToken(loginDetails, null, loginDetails.getAuthorities());
 	}
 

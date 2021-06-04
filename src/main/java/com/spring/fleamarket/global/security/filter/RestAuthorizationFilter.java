@@ -49,10 +49,13 @@ public class RestAuthorizationFilter extends BasicAuthenticationFilter {
 			throws IOException, ServletException {
 		try {
 			String accessToken = jwtTokenService.getJwtToken(request);
+			jwtTokenService.verifyJwtToken(accessToken);
+			
 			Authentication auth = jwtTokenService.getAuthentication(accessToken);
 			SecurityContextHolder.getContext().setAuthentication(auth);
+			
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.warn(e.getMessage());
 		} 
 		
 		chain.doFilter(request, response);
