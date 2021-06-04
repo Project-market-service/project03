@@ -11,13 +11,16 @@ import org.springframework.stereotype.Service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.AlgorithmMismatchException;
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.spring.fleamarket.domain.account.mapper.AccountFindMapper;
+import com.spring.fleamarket.domain.auth.config.JwtConfig;
 import com.spring.fleamarket.domain.auth.exception.InvalidHeaderFormatException;
 import com.spring.fleamarket.domain.auth.exception.NotFoundAuthenticationHeaderException;
 import com.spring.fleamarket.domain.auth.service.JwtTokenService;
 import com.spring.fleamarket.domain.model.Account;
-import com.spring.fleamarket.global.security.config.JwtConfig;
 import com.spring.fleamarket.global.security.model.LoginDetails;
 
 import lombok.extern.log4j.Log4j;
@@ -33,7 +36,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 	AccountFindMapper mapper;
 
 	@Override
-	public Authentication getAuthentication(String token) throws TokenExpiredException, Exception {
+	public Authentication getAuthentication(String token) {
 		int id = getIdFromJwtToken(token);
 		String username = getUsernameFromJwtToken(token);
 		LoginDetails loginDetails = new LoginDetails(id, username);
@@ -77,7 +80,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 	}
 
 	@Override
-	public void verifyJwtToken(String token) throws TokenExpiredException, Exception {
+	public void verifyJwtToken(String token) throws TokenExpiredException, JWTVerificationException, Exception {
 		JWT.require(Algorithm.HMAC256(jwtConfig.getSecretKey())).build().verify(token);
 	}
 

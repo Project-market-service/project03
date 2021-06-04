@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.spring.fleamarket.domain.account.service.AccountFindService;
@@ -46,7 +47,7 @@ public class AuthController {
 	
 	@GetMapping("/refresh")
 	public ResponseEntity<LoginSuccessResponse> getRefreshToken(HttpServletRequest request, HttpServletResponse response) 
-		throws Exception {
+		throws JWTVerificationException, Exception {
 		String accessToken = jwtTokenService.getJwtToken(request);
 		String refreshToken = refreshTokenService.getRefreshToken(request);
 		
@@ -76,25 +77,13 @@ public class AuthController {
 		return new ResponseEntity<>(authResponse, HttpStatus.OK);
 	}
 	
-	@ExceptionHandler(InvalidRefreshTokenException.class)
-	protected ResponseEntity<ErrorResponse> handleUnauthorizedException(InvalidRefreshTokenException e) {
+	@ExceptionHandler({Exception.class})
+	protected ResponseEntity<ErrorResponse> handleUnauthorizedException(Exception e) {
 		ErrorResponse response = ErrorResponse.builder()
 									.httpStatus(HttpStatus.UNAUTHORIZED)
 									.message(e.getMessage())
 									.build();
 		return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatusCode()));
 	}
-	
-	@ExceptionHandler({NotFoundAuthenticationHeaderException.class, 
- 					   InvalidHeaderFormatException.class, 
-					   NotFoundRefreshTokenException.class,
-					   Exception.class})
-	protected ResponseEntity<ErrorResponse> handleBadRequestException(Exception e) {
-		ErrorResponse response = ErrorResponse.builder()
-				.httpStatus(HttpStatus.BAD_REQUEST)
-				.message(e.getMessage())
-				.build();
-		return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatusCode()));
-	}
-	
 }
+

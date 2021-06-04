@@ -4,13 +4,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.core.Authentication;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.spring.fleamarket.domain.auth.exception.InvalidHeaderFormatException;
 import com.spring.fleamarket.domain.auth.exception.NotFoundAuthenticationHeaderException;
 
 public interface JwtTokenService {
 	
-	public Authentication getAuthentication(String token) throws TokenExpiredException, Exception;
+	public Authentication getAuthentication(String token);
 	
 	public String getJwtToken(HttpServletRequest request) throws NotFoundAuthenticationHeaderException, InvalidHeaderFormatException;
 
@@ -20,6 +21,6 @@ public interface JwtTokenService {
 
 	public String getUsernameFromJwtToken(String token);
 
-	public void verifyJwtToken(String token) throws TokenExpiredException, Exception;
+	public void verifyJwtToken(String token) throws TokenExpiredException, JWTVerificationException, Exception;
 	
 }

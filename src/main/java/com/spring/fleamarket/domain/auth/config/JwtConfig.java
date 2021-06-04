@@ -1,4 +1,4 @@
-package com.spring.fleamarket.global.security.config;
+package com.spring.fleamarket.domain.auth.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

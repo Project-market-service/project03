@@ -22,6 +22,7 @@ import com.spring.fleamarket.domain.auth.service.RefreshTokenService;
 import com.spring.fleamarket.domain.model.Account;
 import com.spring.fleamarket.domain.model.RefreshToken;
 import com.spring.fleamarket.global.security.model.LoginSuccessResponse;
+import com.spring.fleamarket.global.error.model.ErrorResponse;
 import com.spring.fleamarket.global.security.model.LoginDetails;
 import com.spring.fleamarket.global.security.model.LoginRequest;
 
@@ -42,10 +43,6 @@ public class RestAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
-		if (!request.getMethod().equals("POST")) {
-			throw new AuthenticationServiceException(request.getMethod() + " is not supported");
-		}
-		
 		try {
 			LoginRequest loginRequest = objectMapper.readValue(request.getReader(), LoginRequest.class);
 
@@ -53,17 +50,14 @@ public class RestAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 			
 			return getAuthenticationManager().authenticate(authToken);
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new AuthenticationServiceException(e.getMessage());
 		}
-		
-		return null;
+
 	}
 
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
-		log.info("LOGIN SUCCESS");
-		
 		LoginDetails user = (LoginDetails) authResult.getPrincipal();
 		
 		String accessToken = jwtTokenService.generateAccessToken(user.getId(), user.getUsername());		
@@ -80,10 +74,10 @@ public class RestAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 	@Override
 	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException failed) throws IOException, ServletException {
-		log.warn("LOGIN FAIL");
-		response.setStatus(HttpStatus.UNAUTHORIZED.value());
-		response.getWriter().print("login fail");
+		ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, failed.getMessage());
+		response.setContentType("application/json;charset=utf-8");
+		response.setStatus(errorResponse.getStatusCode());
+		response.getWriter().print(objectMapper.writeValueAsString(errorResponse));;
 	}
-	
 	
 }

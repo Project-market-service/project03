@@ -15,6 +15,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import com.spring.fleamarket.global.security.error.RestAuthenticationEntryPoint;
 import com.spring.fleamarket.global.security.filter.RestAuthenticationFilter;
 import com.spring.fleamarket.global.security.filter.RestAuthorizationFilter;
 import com.spring.fleamarket.global.security.handler.RestLogoutSuccessHandler;
@@ -48,7 +49,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.and()
 			.addFilter(corsFilter())
 			.addFilter(restAuthenticationFilter())
-			.addFilter(restAuthorizationFilter());
+			.addFilter(restAuthorizationFilter())
+			.exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint());
 			
 	}
 	
@@ -85,5 +87,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		source.registerCorsConfiguration("/**", config);
 		return new CorsFilter(source);
+	}
+
+	@Bean
+	public RestAuthenticationEntryPoint restAuthenticationEntryPoint() {
+		return new RestAuthenticationEntryPoint();
 	}
 }
