@@ -4,6 +4,6 @@ module.exports = {
             '/fleamarket' : {
                 target: 'http://localhost:8081',
             }
-        }
+        },
     }
 }

@@ -11,25 +11,21 @@ import lombok.ToString;
 
 @Getter
 @ToString
-public class AccountImageRequest {
+public class AccountImageUploadRequest {
 
-	@NotNull
-	private MultipartFile file;
-	
 	@Min(value = 0)
-	private int x;
+	private int left;
 	@Min(value = 0)
-	private int y;
+	private int top;
 	private int width;
 	private int height;
 	
 	private final int resize = 300;
 
 	@Builder
-	public AccountImageRequest(MultipartFile file, int x, int y, int width, int height) {
-		this.file = file;
-		this.x = x;
-		this.y = y;
+	public AccountImageUploadRequest(int left, int top, int width, int height) {
+		this.left = left;
+		this.top = top;
 		this.width = width;
 		this.height = height;
 	}

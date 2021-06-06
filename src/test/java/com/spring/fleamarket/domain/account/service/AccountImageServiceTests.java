@@ -14,8 +14,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.spring.fleamarket.domain.account.dto.AccountImageRequest;
+import com.spring.fleamarket.domain.account.dto.AccountImageUploadRequest;
 import com.spring.fleamarket.domain.model.AccountImage;
+
+import lombok.extern.log4j.Log4j;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -23,6 +25,7 @@ import com.spring.fleamarket.domain.model.AccountImage;
 	"file:src/main/webapp/WEB-INF/spring/root-context.xml",	
 	"file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml"
 })
+@Log4j
 public class AccountImageServiceTests {
 	
 	@Autowired
@@ -31,21 +34,21 @@ public class AccountImageServiceTests {
 	@Autowired
 	AccountFindService accountFindService;
 	
-	private AccountImageRequest accountImageRequest;
+	private MultipartFile file;
+	private AccountImageUploadRequest accountImageRequest;
 	private AccountImage accountImage;
 	
 	@Before
 	public void initialize() throws IOException {
 		String fileDir = "src/test/resources/file";
 		String fileName = "image1.png";
-		MultipartFile file = new MockMultipartFile("file", 
+		file = new MockMultipartFile("file", 
 									 fileName, 
 									 null, 
 									 new FileInputStream(fileDir + File.separator + fileName));
 		
-		accountImageRequest = AccountImageRequest.builder()
-												 .file(file)
-												 .x(100).y(200)
+		accountImageRequest = AccountImageUploadRequest.builder()
+												 .left(100).top(200)
 												 .width(200)
 												 .height(200)
 												 .build();
@@ -56,7 +59,12 @@ public class AccountImageServiceTests {
 		
 	@Test
 	public void insertAccountImageByAccountIdTest() throws Exception {
-		service.insertAccountImageByAccountId(accountImageRequest, accountImage);
+		accountImage = accountFindService.selectAccountImageByAccountId(accountImage.getAccountId());
+		if (accountImage == null) {
+			service.insertAccountImageByAccountId(file, accountImageRequest, accountImage);
+		} else {
+			log.info("이미 등록된 프로필 이미지가 있습니다.");
+		}
 	}
 	
 	@Test
@@ -64,7 +72,9 @@ public class AccountImageServiceTests {
 		accountImage = accountFindService.selectAccountImageByAccountId(accountImage.getAccountId());
 		if (accountImage != null) {			
 			accountImage.setPath(accountImage.getPath());
-			service.updateAccountImageByAccountId(accountImageRequest, accountImage);			
+			service.updateAccountImageByAccountId(file, accountImageRequest, accountImage);			
+		} else {
+			log.info("등록된 프로필 이미지가 없습니다.");
 		}
 	}
 
@@ -74,7 +84,7 @@ public class AccountImageServiceTests {
 		if (accountImage != null) {			
 			accountImage.setPath(accountImage.getPath());
 			service.deleteAccountImageByAccountId(accountImage);	
-		}
+		} 
 	}
 	
 }

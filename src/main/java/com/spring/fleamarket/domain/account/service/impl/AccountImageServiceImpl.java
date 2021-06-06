@@ -14,8 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.spring.fleamarket.domain.account.dto.AccountImageRequest;
+import com.spring.fleamarket.domain.account.dto.AccountImageUploadRequest;
 import com.spring.fleamarket.domain.account.mapper.AccountImageMapper;
 import com.spring.fleamarket.domain.account.service.AccountImageService;
 import com.spring.fleamarket.domain.model.AccountImage;
@@ -36,10 +37,10 @@ public class AccountImageServiceImpl implements AccountImageService {
 	private AccountImageMapper mapper;
 	
 	@Override
-	public void insertAccountImageByAccountId(@Valid AccountImageRequest request, AccountImage accountImage) throws Exception {		
+	public void insertAccountImageByAccountId(MultipartFile file, @Valid AccountImageUploadRequest request, AccountImage accountImage) throws Exception {		
 		String path = null;
 		try {
-			path = uploadCroppedImageFile(request);
+			path = uploadCroppedImageFile(file, request);
 			accountImage.setPath(path);
 			log.info(accountImage);
 			mapper.insertAccountImageByAccountId(accountImage);
@@ -53,11 +54,11 @@ public class AccountImageServiceImpl implements AccountImageService {
 	}
 
 	@Override
-	public void updateAccountImageByAccountId(@Valid AccountImageRequest request, AccountImage accountImage) throws Exception {
+	public void updateAccountImageByAccountId(MultipartFile file, @Valid AccountImageUploadRequest request, AccountImage accountImage) throws Exception {
 		String newPath = null;
 		try {
 			String prevPath = accountImage.getPath();
-			newPath = uploadCroppedImageFile(request);
+			newPath = uploadCroppedImageFile(file, request);
 			accountImage.setPath(newPath);
 				
 			mapper.updateAccountImageByAccountId(accountImage);
@@ -81,11 +82,11 @@ public class AccountImageServiceImpl implements AccountImageService {
 		}
 	}
 	
-	private String uploadCroppedImageFile(AccountImageRequest request) throws Exception {
-		return FileUtils.uploadCroppedImageFile(request.getFile(), 
+	private String uploadCroppedImageFile(MultipartFile file, AccountImageUploadRequest request) throws Exception {
+		return FileUtils.uploadCroppedImageFile(file, 
 											    uploadPath, 
-											    request.getX(), 
-											    request.getY(), 
+											    request.getLeft(), 
+											    request.getTop(), 
 											    request.getWidth(), 
 											    request.getHeight(),
 											    request.getResize());

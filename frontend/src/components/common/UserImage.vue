@@ -1,7 +1,7 @@
 <template>
-  <div class="user-image" v-bind:style="getUserImageStyle">
+	<div class="user-image" v-bind:style="getUserImageStyle">
 		<img v-if="hasUid" v-bind:src="getUserImageUrl" alt="">	
-    <img v-else src="../../assets/image/help.png" alt="">
+		<img v-else src="../../assets/image/help.png" alt="">
 	</div>
 </template>
 
