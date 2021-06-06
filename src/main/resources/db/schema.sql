@@ -2,6 +2,7 @@ DROP TABLE accounts;
 DROP TABLE users;
 DROP TABLE account_images;
 DROP TABLE messages;
+DROP TABLE refresh_tokens;
 
 CREATE TABLE accounts (
 	id INT PRIMARY KEY AUTO_INCREMENT,					-- 계정 고유번호
@@ -36,4 +37,12 @@ CREATE TABLE messages (
 	CONSTRAINT message_sender_id_fk FOREIGN KEY (sender_id) REFERENCES accounts (id),
 	CONSTRAINT message_receiver_id_fk FOREIGN KEY (receiver_id) REFERENCES accounts (id)
 
+);
+
+CREATE TABLE refresh_tokens (
+	account_id INT PRIMARY KEY,				-- 계정 고유번호
+    token VARCHAR(40) NOT NULL UNIQUE,		-- 토큰
+    expired_date TIMESTAMP NOT NULL,		-- 만료일자
+    CONSTRAINT refresh_token_account_id_fk FOREIGN KEY (account_id)
+		REFERENCES accounts (id)
 );

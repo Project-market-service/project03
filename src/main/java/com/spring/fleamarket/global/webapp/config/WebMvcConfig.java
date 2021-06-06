@@ -22,5 +22,5 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	public AuthenticationPrincipalArgumentResolver authenticationPrincipalArgumentResolver() {
 		return new AuthenticationPrincipalArgumentResolver();
 	}
-	
+
 }
