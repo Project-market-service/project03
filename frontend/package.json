@@ -13,6 +13,7 @@
     "vue": "^2.6.11",
     "vue-advanced-cropper": "^1.5.2",
     "vue-router": "^3.5.1",
+    "vueperslides": "^2.15.0",
     "vuex": "^3.6.2"
   },
   "devDependencies": {
