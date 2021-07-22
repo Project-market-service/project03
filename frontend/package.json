@@ -10,6 +10,9 @@
   "dependencies": {
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "jquery": "^3.6.0",
+    "sockjs-client": "^1.5.1",
+    "stompjs": "^2.3.3",
     "vue": "^2.6.11",
     "vue-advanced-cropper": "^1.5.2",
     "vue-router": "^3.5.1",
@@ -29,7 +32,10 @@
     "root": true,
     "env": {
       "node": true
+      
     },
+    
+
     "extends": [
       "plugin:vue/essential",
       "eslint:recommended"
@@ -37,7 +43,10 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {
+      "no-unused-vars" : "off",
+      "no-mixed-spaces-and-tabs" : 0 
+    }
   },
   "browserslist": [
     "> 1%",

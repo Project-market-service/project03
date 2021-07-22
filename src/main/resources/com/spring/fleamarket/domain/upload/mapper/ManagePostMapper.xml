@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.fleamarket.domain.upload.mapper.ManagePostMapper">
+
+	<insert id="uploadFiles" useGeneratedKeys="true"
+    keyProperty="fileNo">
+		INSERT INTO
+			files(file_category, user_id, uuid, original_file_name, saved_file_name, upload_path, file_size)
+		VALUES
+			(#{fileCategory}, #{userId}, #{uuid}, #{originalFileName}, #{savedFileName}, #{uploadPath}, #{fileSize})
+	</insert>
+	
+	<insert id="savePosts">
+		INSERT INTO
+			posts(post_title, post_subtitle, content, category, file_no, num_of_page, user_id)
+		VALUES
+			(#{postTitle}, #{postSubtitle}, #{content}, #{category}, #{fileNo}, #{numOfPage}, #{userId})
+	
+	</insert>
+	
+	<select id="bringPostList" resultType="Post">
+		SELECT *
+		FROM posts
+		WHERE user_id = #{userId}
+	
+	</select>
+	
+	
+	<select id="searchFileNo" resultType="Integer">
+		SELECT file_no
+		FROM posts
+		WHERE user_id = #{userId} AND post_no = #{postNo}
+	</select>
+	
+	<select id="searchFilePath" resultType="String">	
+		SELECT upload_path
+		FROM files
+		WHERE file_no = #{fileNO}
+	
+	</select>
+	
+</mapper>

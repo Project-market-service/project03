@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,7 @@ public class AccountImageServiceTests {
 		}
 	}
 	
+	@Ignore
 	@Test
 	public void updateAccountImageByAccountIdTest() throws Exception {
 		accountImage = accountFindService.selectAccountImageByAccountId(accountImage.getAccountId());
@@ -77,7 +79,7 @@ public class AccountImageServiceTests {
 			log.info("등록된 프로필 이미지가 없습니다.");
 		}
 	}
-
+	@Ignore
 	@Test
 	public void deleteAccountImageByAccountIdTest() throws Exception {
 		accountImage = accountFindService.selectAccountImageByAccountId(accountImage.getAccountId());

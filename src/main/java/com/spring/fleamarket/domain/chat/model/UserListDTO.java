@@ -1,33 +1,23 @@
 package com.spring.fleamarket.domain.chat.model;
 
-
-
 import java.util.Date;
 
 import org.apache.ibatis.type.Alias;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
-@Alias("MessageModel")
+@Alias("UserList")
 @Getter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class MessageModel {
+public class UserListDTO {
 
-	@Setter
-	private int messageNo;
-	@Setter
-	private int senderId;
-	@Setter
-	private int receiverId;
-	private String content; 
-	@Setter
+	private int user;
+	private String name;
+	private String content;
 	private Date createDate;
-		
 }

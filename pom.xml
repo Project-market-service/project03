@@ -96,7 +96,6 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
-	
 		
 		<!-- Spring Security -->
 		<!-- spring-security-core -->
@@ -194,6 +193,27 @@
 		    <version>${org.springframework-version}</version>
 		</dependency>
 		
+		<!-- PDFBox -->
+		<dependency>
+		    <groupId>org.apache.pdfbox</groupId>
+		    <artifactId>pdfbox</artifactId>
+		    <version>2.0.13</version>
+		</dependency>
+		
+		<!-- PDFBox-Tool -->
+		<dependency>
+		    <groupId>org.apache.pdfbox</groupId>
+		    <artifactId>pdfbox-tools</artifactId>
+		    <version>2.0.13</version>
+		</dependency>
+		
+		<!-- Simple Magic -->
+		<dependency>
+		    <groupId>com.j256.simplemagic</groupId>
+		    <artifactId>simplemagic</artifactId>
+		    <version>1.14</version>
+		</dependency>
+		
 		<!-- hibernate-validator -->
 		<dependency>
 		    <groupId>org.hibernate.validator</groupId>
@@ -230,6 +250,13 @@
 		    <artifactId>imgscalr-lib</artifactId>
 		    <version>4.2</version>
 		</dependency>
+		
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		    <version>3.10</version>
+		</dependency>
+		
 						
 		<!-- java-jwt -->
 		<dependency>
